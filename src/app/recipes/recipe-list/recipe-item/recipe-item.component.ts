@@ -10,6 +10,8 @@ import {Recipe} from "../../recipe.model";
 export class RecipeItemComponent implements OnInit {
   // @ts-ignore
   @Input() recipe: Recipe;
+  // @ts-ignore
+  @Input() index: number;
 
 
   ngOnInit() {
