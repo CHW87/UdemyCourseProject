@@ -1,16 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Ingredient} from "../shared/ingredient.model";
 import {ShoppingListService} from "./shopping-list.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-shoping-list',
   templateUrl: './shoping-list.component.html',
   styleUrls: ['./shoping-list.component.css']
 })
-export class ShopingListComponent implements OnInit {
+export class ShopingListComponent implements OnInit, OnDestroy {
 
   // @ts-ignore
   ingredients: Ingredient[];
+  // @ts-ignore
+  private igChangeSub: Subscription;
   // = [
   //   new Ingredient('Apples',5),
   //   new Ingredient('Tomatoes',10)
@@ -21,11 +24,14 @@ export class ShopingListComponent implements OnInit {
 
   ngOnInit() {
     this.ingredients = this.slService.getIngredients();
-    this.slService.ingredientsChanged
+    this.igChangeSub = this.slService.ingredientsChanged
       .subscribe(
         (ingredients: Ingredient[]) =>{
           this.ingredients = ingredients;
         })
+  }
+  ngOnDestroy(): void {
+    this.igChangeSub.unsubscribe();
   }
 
 }
