@@ -53,4 +53,10 @@ this.subscription = this.slService.startedEditing
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  onClear() {
+    this.slForm.reset();
+    this.editMode = false;
+
+  }
 }
