@@ -5,6 +5,7 @@ import {RecipeService} from "../recipes/recipe.service";
 import {Recipe} from "../recipes/recipe.model";
 import {exhaustMap, map, take, tap} from "rxjs/operators";
 import {AuthService} from "../auth/auth.service";
+import {throwError} from "rxjs";
 
 @Injectable({providedIn: "root"})
 export class DataStorageService {
@@ -31,6 +32,11 @@ export class DataStorageService {
            // @ts-ignore
         return this.http.get<Recipe[]>(
           'https://ng-course-recipe-book-63dee-default-rtdb.firebaseio.com/recipes.json?auth='+ user.token)
+        // !!!!!!!!!!!!!!!!!!!!!------this method throw error(TSlint)--------!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // ('https://ng-course-recipe-book-63dee-default-rtdb.firebaseio.com/recipes.json',
+        //   {
+        //    params: new HttpParams().set('auth', user.token)
+        //   })
       }),
       map(recipes => {
         return recipes.map(recipe => {
