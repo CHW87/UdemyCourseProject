@@ -14,7 +14,7 @@ export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
   // @ts-ignore
-  error: string = null;
+  error: null = null;
 
   constructor(private authService: AuthService,private router: Router) {
   }
@@ -51,5 +51,9 @@ export class AuthComponent {
       });
 
     form.reset();
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 }
