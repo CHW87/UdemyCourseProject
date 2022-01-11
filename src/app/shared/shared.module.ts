@@ -24,7 +24,7 @@ import {LoggingService} from "../logging.service";
     CommonModule
   ],
   entryComponents:[AlertComponent],
-  providers: [LoggingService]
+  // providers: [LoggingService]
 })
 
 export class SharedModule {
