@@ -3,6 +3,7 @@ import {Ingredient} from "../shared/ingredient.model";
 import {ShoppingListService} from "./shopping-list.service";
 import {Subscription} from "rxjs";
 import {LoggingService} from "../logging.service";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-shoping-list',
@@ -11,8 +12,7 @@ import {LoggingService} from "../logging.service";
 })
 export class ShopingListComponent implements OnInit, OnDestroy {
 
-  // @ts-ignore
-  ingredients: Ingredient[];
+  ingredients: Ingredient[] | undefined;
   // @ts-ignore
   private subscription: Subscription;
   // = [
@@ -20,23 +20,29 @@ export class ShopingListComponent implements OnInit, OnDestroy {
   //   new Ingredient('Tomatoes',10)
   // ];
 
-  constructor(private slService: ShoppingListService,private loggingService: LoggingService) {
+  constructor(
+    private slService: ShoppingListService,
+    private loggingService: LoggingService,
+    private store: Store<{ shoppingList: { ingredients: Ingredient[] } }>
+  ) {
   }
 
   ngOnInit() {
-    this.ingredients = this.slService.getIngredients();
-    this.subscription = this.slService.ingredientsChanged
-      .subscribe(
-        (ingredients: Ingredient[]) =>{
-          this.ingredients = ingredients;
-        });
+    this.store.select('shoppingList')
+  //   this.ingredients = this.slService.getIngredients();
+  //   this.subscription = this.slService.ingredientsChanged
+  //     .subscribe(
+  //       (ingredients: Ingredient[]) => {
+  //         this.ingredients = ingredients;
+  //       });
     this.loggingService.printLog('Hello from ShoppingListComponent ngOnInit')
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   onEditItem(index: number) {
-this.slService.startedEditing.next(index);
+    this.slService.startedEditing.next(index);
+  }
+
+  ngOnDestroy(): void {
+  //   this.subscription.unsubscribe();
   }
 }
